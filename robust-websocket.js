@@ -148,7 +148,7 @@
       var newUrl = (typeof url === 'function' ? url(self) : url);
       pendingReconnect = null
       realWs = new WebSocket(newUrl, protocols || undefined)
-      realWs.binaryType = self.binaryType
+      realWs.binaryType = opts.binaryType
 
       attempts++
       self.dispatchEvent(Object.assign(new CustomEvent('connecting'), {
@@ -204,10 +204,12 @@
 
     // Create and connect the WebSocket when the instance is instantiated.
     // Defaults to true to match standard WebSocket behavior
-    automaticOpen: true
-  }
+    automaticOpen: true,
 
-  RobustWebSocket.prototype.binaryType = 'blob'
+    // Type of Websocket binaryType connection.
+    // Options are blob or arraybuffer
+    binaryType: 'blob'
+  }
 
   // Taken from MDN https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
   RobustWebSocket.prototype.addEventListener = function(type, callback) {
