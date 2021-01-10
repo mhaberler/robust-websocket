@@ -41,8 +41,8 @@
 
     function clearPendingReconnectIfNeeded() {
       if (pendingReconnect) {
-        clearTimeout(pendingReconnect)
         pendingReconnect = null
+        clearTimeout(pendingReconnect)
       }
     }
 
@@ -103,7 +103,7 @@
     }
 
     function reconnect(event) {
-      if ((!opts.shouldReconnect.handle1000 && event.code === 1000) || explicitlyClosed) {
+      if (event.code === 1000 || explicitlyClosed) {
         attempts = 0
         return
       }
@@ -176,9 +176,7 @@
         })
       })
 
-      if (!opts.ignoreConnectivityEvents) {
-        attachConnectivityEvents()
-      }
+      attachConnectivityEvents()
     }
 
     if (opts.automaticOpen) {
@@ -236,6 +234,7 @@
     if (!(event.type in this.listeners)) {
       return
     }
+    event.currentTarget = this
     var stack = this.listeners[event.type]
     for (var i = 0, l = stack.length; i < l; i++) {
       stack[i].call(this, event)
@@ -243,4 +242,4 @@
   }
 
   return RobustWebSocket
-}, typeof window != 'undefined' ? window : (typeof global != 'undefined' ? global : this));
+}, typeof window != 'undefined' ? window : (typeof global != 'undefined' ? global : this))
